@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const notesController = require("../controllers/notesController");
+
+router.use(notesController.authenticateUser);
 
 router.get("", (req, res) => {
   res.send("Got note");
