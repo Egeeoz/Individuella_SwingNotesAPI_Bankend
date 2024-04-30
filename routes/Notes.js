@@ -4,15 +4,11 @@ const notesController = require("../controllers/notesController");
 
 router.use(notesController.authenticateUser);
 
-router.get("", (req, res) => {
-  res.send("Got note");
-});
+router.get("", notesController.note_get);
 
 router.post("", notesController.note_create);
 
-router.put("", (req, res) => {
-  res.send("Modified a note");
-});
+router.put("/:id", notesController.note_modify);
 
 router.delete("", (req, res) => {
   res.send("Removed a note");

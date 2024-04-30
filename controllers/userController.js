@@ -45,7 +45,7 @@ const user_login = async (req, res) => {
 
     if (correctPassword) {
       const token = jwt.sign({ id: user.id }, "your_secret_key", {
-        expiresIn: 600, //10 min
+        expiresIn: 1200, //20 min
       });
 
       result.success = true;

@@ -17,11 +17,24 @@ function findNoteById(noteId) {
   return database.findOne({ id: noteId });
 }
 
-function updateNoteById(noteId, newData) {
-  return database.update({ id: noteId }, { $set: newData }, {});
+function findUserNotes(userId) {
+  return database.find({ userId: userId });
 }
 
-function deleteNotebyId(noteId) {
+const updateNoteById = async (noteId, newData) => {
+  try {
+    // Update the existing note
+    await database.update({ id: noteId }, { $set: newData }, {});
+
+    // Fetch and return the updated note
+    const updatedNote = await database.findOne({ id: noteId });
+    return updatedNote;
+  } catch (error) {
+    throw new Error(`Error updating note with ID ${noteId}: ${error.message}`);
+  }
+};
+
+function deleteNoteById(noteId) {
   return database.remove({ id: noteId }, {});
 }
 
@@ -29,5 +42,6 @@ module.exports = {
   saveNote,
   findNoteById,
   updateNoteById,
-  deleteNotebyId,
+  deleteNoteById,
+  findUserNotes,
 };
