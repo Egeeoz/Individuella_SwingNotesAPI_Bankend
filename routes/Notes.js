@@ -8,9 +8,7 @@ router.get("", (req, res) => {
   res.send("Got note");
 });
 
-router.post("", (req, res) => {
-  res.send("Created note");
-});
+router.post("", notesController.note_create);
 
 router.put("", (req, res) => {
   res.send("Modified a note");
