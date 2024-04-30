@@ -17,7 +17,7 @@ const user_create = async (req, res) => {
 
     saveUser(username, pass);
 
-    res.json({ success: true });
+    res.json({ success: true, message: "User Created" });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ success: false, message: "Error logging in" });
