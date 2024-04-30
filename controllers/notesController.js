@@ -42,6 +42,18 @@ const note_create = async (req, res) => {
   const { title, text } = req.body;
   const userId = req.userId;
 
+  if (!title || title.length > 50 || !text || text.length > 300) {
+    let errorMessage = "";
+
+    if (!title || title.length > 50) {
+      errorMessage += "Title must be less than 50 characters. ";
+    }
+
+    if (!text || text.length > 300) {
+      errorMessage += "Text must be less than 300 characters.";
+    }
+  }
+
   try {
     const createdAt = new Date();
     const modifiedAt = new Date();
@@ -102,9 +114,39 @@ const note_modify = async (req, res) => {
   }
 };
 
+const note_remove = async (req, res) => {
+  const noteId = req.body.id;
+
+  if (!noteId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Enter a valid note ID" });
+  }
+
+  try {
+    const existingNoteId = Note.findNoteById(noteId);
+
+    if (!existingNoteId) {
+      return res.status(400).json({
+        success: false,
+        message: "No note found with the specified ID",
+      });
+    }
+
+    Note.deleteNoteById(noteId);
+
+    res
+      .status(200)
+      .json({ success: true, message: "Successfully deleted note" });
+  } catch (error) {
+    res.status(500).json({ succes: false, message: "Internal server error" });
+  }
+};
+
 module.exports = {
   authenticateUser,
   note_create,
   note_modify,
   note_get,
+  note_remove,
 };

@@ -10,8 +10,6 @@ router.post("", notesController.note_create);
 
 router.put("/:id", notesController.note_modify);
 
-router.delete("", (req, res) => {
-  res.send("Removed a note");
-});
+router.delete("", notesController.note_remove);
 
 module.exports = router;
